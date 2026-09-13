@@ -1,3 +1,1 @@
-# Raumkachel
-
-[Einrichtung und Bedienung](../README.md) · [Update 2.1](../UPDATE-2.1.0.md)
+Siehe ../README.md und ../UPDATE-2.3.0.md für Konfiguration und Versionshinweise.

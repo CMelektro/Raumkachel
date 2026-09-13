@@ -2,7 +2,7 @@
   "elements": [
     {
       "type": "Label",
-        "caption": "Raumkachel 2.1.10 · Raum auswählen und gewünschte Geräte aktivieren."
+      "caption": "Raumkachel 2.3.0 · Raum auswählen und gewünschte Geräte aktivieren."
     },
     {
       "type": "ExpansionPanel",
@@ -945,6 +945,63 @@
     {
       "type": "Label",
       "caption": "Deaktivierte Kreise und nicht gewählte Funktionen bleiben unsichtbar. Aktive, aber unvollständig zugeordnete Funktionen sind nicht bedienbar. Jede Instanz kann unabhängig konfiguriert werden."
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Klima / Einzelraumregelung",
+      "items": [
+        {
+          "type": "CheckBox",
+          "name": "ClimateEnabled",
+          "caption": "Klimabereich anzeigen"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "ClimateName",
+          "caption": "Bezeichnung"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "ClimateActual",
+          "caption": "Isttemperatur (°C)",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "ClimateTarget",
+          "caption": "Sollwert schreiben (absolute Temperatur in °C)",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "ClimateFeedback",
+          "caption": "Sollwert-Rückmeldung (optional, °C)",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "ClimateMin",
+          "caption": "Minimaler Sollwert (°C)"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "ClimateMax",
+          "caption": "Maximaler Sollwert (°C)"
+        },
+        {
+          "type": "Label",
+          "caption": "Die Regelung übernimmt der Aktor. Hier eine beschreibbare absolute Solltemperatur zuordnen, keine Sollwertverschiebung. Float-Variablen: 0,5-°C-Schritte; Integer: 1 °C. Istwert und Rückmeldung benötigen keine Aktion."
+        }
+      ]
     }
   ]
 }

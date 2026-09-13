@@ -1,0 +1,10 @@
+.climate-card{background:linear-gradient(130deg,#fff8e309,#ffffff02);border-color:#edc58f35}
+.climate-reading{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:8px 0 10px}
+.climate-reading .caption{font-size:11px;opacity:.65}
+.climate-reading output{font-size:27px;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.climate-target{display:flex;align-items:center;gap:7px}
+.climate-target input{width:72px;min-width:0;flex:1;background:#ffffff09;border:1px solid #ffffff25;color:var(--ink);border-radius:7px;text-align:center;padding:6px 2px;font-variant-numeric:tabular-nums}
+.climate-target button{width:32px;height:32px;flex-shrink:0;border:1px solid #edc58f30;background:#edc58f0d;color:var(--warm);border-radius:7px;font-size:20px}
+.climate-caption{font-size:11px;opacity:.65;margin:4px 0 6px}
+.climate-hint{font-size:10px;opacity:.6;margin-top:6px}
+@media(max-width:380px){.climate-target{gap:3px}.climate-target button{width:26px}.climate-reading output{font-size:23px}}

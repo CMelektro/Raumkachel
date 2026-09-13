@@ -1,12 +1,12 @@
 {
-    "id": "{8EC8B9D0-58CE-42CC-91B8-C9CB79039F43}",
-    "name": "Raumkachel",
-    "author": "CMelektro",
-    "url": "",
-    "compatibility": {
-        "version": "7.1"
-    },
-    "version": "2.1.10",
-    "build": 15,
-    "date": 0
+  "id": "{8EC8B9D0-58CE-42CC-91B8-C9CB79039F43}",
+  "name": "Raumkachel",
+  "author": "CMelektro",
+  "url": "",
+  "compatibility": {
+    "version": "9.0"
+  },
+  "version": "2.3.0",
+  "build": 16,
+  "date": 0
 }

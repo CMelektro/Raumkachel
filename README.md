@@ -1,6 +1,6 @@
-# Raumkachel 2.1.10
+# Raumkachel 2.3.0
 
-Korrektur in 2.1.10: Für Symcon 9.0 wird wieder der unterstützte HTML-Visualisierungstyp 1 verwendet. Typ 2 steht erst ab Symcon 9.1 zur Verfügung und führte unter 9.0 zur fehlenden Raumgrafik. Der Typ wird auch bei bestehenden Instanzen während `ApplyChanges()` gesetzt.
+Neu: optionaler Klimabereich mit Isttemperatur und Sollwertbedienung. Einrichtung und Update: [UPDATE-2.3.0.md](UPDATE-2.3.0.md).
 
 Dunkle Raumdarstellung mit einzeln aktivierbaren Grafikelementen. Eine Modulbibliothek, beliebig viele unabhängig konfigurierte Instanzen: Küche, Eingangsbereich, Durchgangsflur, Wohnzimmer, Esszimmer, Gäste-WC, Kinderzimmer, Elternschlafzimmer, Treppenhaus, Büro, Hauswirtschaftsraum, Technikraum und Abstellraum. Die bisherige neutrale Auswahl bleibt zusätzlich verfügbar.
 
@@ -21,12 +21,12 @@ Inaktive Geräte erscheinen weder als Bedienfeld noch als Grafik. Bei einem akti
 ## Update einer bestehenden Kachel
 
 1. ZIP entpacken. Den Inhalt des Ordners `Raumkachel` in das bestehende GitHub-Repository hochladen. `library.json` und `RoomTile` liegen direkt auf der obersten Ebene. Änderungen mit **Commit changes** speichern.
-2. In Symcon die Modulbibliothek aktualisieren. Version **2.1.8 / Build 13** prüfen.
+2. In Symcon die Modulbibliothek aktualisieren. Version **2.3.0 / Build 16** prüfen.
 3. Die bestehende Instanz behalten und öffnen. Änderungen übernehmen, anschließend Visu neu laden.
 
 Die Modul- und Bibliothekskennungen bleiben gleich. Bestehende Namen, Schalt-/Dimmvariablen, Rückmeldungen, Titel, Farben und der erste Steckdosenkreis werden übernommen. Die bisherigen drei Lichtkreise sind anfangs aktiv; Lichtkreis 4, Schaltkreis 2 und beide Rollläden sind zunächst deaktiviert.
 
-Jeder Raumtyp besitzt eine eigene, separat gezeichnete Raumgrafik im dunklen Linien-Stil. Leuchten, Lichtflächen, Fenster und Rollläden passen sich an den Raum an. Für bestehende Installationen ab 1.0.4 bleiben die drei alten Lichtzuordnungen unverändert. Beim direkten Update von 1.0.3 zuerst Schalten und Dimmen getrennt zuordnen (siehe UPDATE-1.0.4.md).
+Jeder Raumtyp besitzt eine eigene, separat gezeichnete Raumgrafik im dunklen Stil. Leuchten, Lichtflächen, Fenster und Rollläden passen sich an den Raum an. Für bestehende Installationen ab 1.0.4 bleiben die drei alten Lichtzuordnungen unverändert. Beim direkten Update von 1.0.3 zuerst Schalten und Dimmen getrennt zuordnen.
 
 ## Weitere Räume
 
@@ -59,13 +59,13 @@ Ohne gültigen Positionswert zeigt die Grafik „—“ und einen blassen, als u
 
 Die Bedienfelder passen sich an die Zahl aktiver Geräte an; bei vielen Kreisen stehen sie zweispaltig. Bei sehr kleinen Kacheln kann Scrollen erforderlich sein. Für alle acht Kreise eine entsprechend große Kachel verwenden.
 
-Die Raumgrafiken und die vollständige Kachel wurden in Chromium geprüft. Mit acht aktiven Kreisen passen die getesteten Anzeigegrößen von 360 × 640 bis 1280 × 800 Pixeln ohne Scrollen. Die PHP-Befehlslogik ist mit PHP 8.5.10 und einer nachgebildeten Symcon-API geprüft. Details, Korrekturen und Grenzen stehen in `PRUEFBERICHT.md`. Der abschließende reale SymBox-/KNX-Test bleibt erforderlich.
+Die Raumgrafiken und die Klimabedienung wurden in Chromium geprüft. Mit zusätzlichem Klimafeld kann vertikales Scrollen bei dichter Belegung einer kleinen Kachel nötig sein. Die PHP-Befehlslogik ist mit PHP 8.5.10 und einer nachgebildeten Symcon-API geprüft. Details und Grenzen stehen in `PRUEFBERICHT-2.3.0.md`. Der abschließende reale SymBox-/KNX-Test bleibt erforderlich.
 
 ## Bezeichnungen und Kompatibilität
 
-Der Modulordner heißt ab Version 2.1.6 `RoomTile`. Modulname, Bibliotheksname und PHP-Klassenname bleiben „Raumkachel“. Die Modul-/Bibliotheks-UUIDs, der Skriptpräfix TVK und die bestehenden Einstellungskennungen bleiben erhalten. Beim Wechsel im bestehenden Repository darf der alte Modulordner nicht zusätzlich bestehen bleiben: Er wird durch `RoomTile` ersetzt. Erst nach dem vollständigen Austausch in Symcon aktualisieren. Siehe `UPDATE-2.1.6.md`.
+Der Modulordner heißt ab Version 2.1.6 `RoomTile`. Modulname, Bibliotheksname und PHP-Klassenname bleiben „Raumkachel“. Die Modul-/Bibliotheks-UUIDs, der Skriptpräfix TVK und die bestehenden Einstellungskennungen bleiben erhalten. Beim Wechsel von einer älteren Version mit anders benanntem Modulordner darf der alte Modulordner nicht zusätzlich bestehen bleiben: Er wird durch `RoomTile` ersetzt.
 
-Ab 2.1.8 wird bei jedem Anwenden der Moduleinstellungen ein nicht leerer Raumname als Instanzname übernommen, auch bei bestehenden Instanzen. Ein leeres Feld behält den bisherigen Instanznamen. Der Raumname ändert sich beim Wechsel des Raummotivs nicht automatisch. Details stehen in UPDATE-2.1.8.md.
+Bei jedem Anwenden der Moduleinstellungen wird ein nicht leerer Raumname als Instanzname übernommen, auch bei bestehenden Instanzen. Ein leeres Feld behält den bisherigen Instanznamen. Der Raumname ändert sich beim Wechsel des Raummotivs nicht automatisch.
 
 Die Modulstruktur richtet sich nach der [Symcon-Dokumentation](https://www.symcon.de/de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/struktur/).
 

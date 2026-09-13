@@ -34,8 +34,8 @@ function variable($id,$type,$value,$action=10001,$custom=0){$GLOBALS['variables'
 function eq($actual,$expected,$why){$GLOBALS['checks']++;if($actual!==$expected)throw new Exception($why.' expected '.json_encode($expected).' got '.json_encode($actual));}
 function fails($fn,$why){$caught=false;try{$fn();}catch(Throwable $e){$caught=true;}eq($caught,true,$why);}
 require __DIR__.'/../RoomTile/module.php';
-$m=new Raumkachel();$m->Create();eq($m->visualization,2,'HTML SDK activated for tile and full screen');
-$m->visualization=1;$m->ApplyChanges();eq($m->visualization,2,'existing instance switches to HTML presentation during update');
+$m=new Raumkachel();$m->Create();eq($m->visualization,1,'Symcon 9.0 HTML SDK activated');
+$m->visualization=0;$m->ApplyChanges();eq($m->visualization,1,'existing instance switches to Symcon 9.0 HTML presentation during update');
 $m->properties['Title']='  Gäste-WC  ';$m->properties['ShowTitle']=false;$m->ApplyChanges();
 eq(IPS_GetName(12345),'Gäste-WC','room name updates own instance even with hidden title');
 eq(IPS_GetName(12346),'Andere Instanz','other instance untouched');
@@ -95,6 +95,22 @@ fails(fn()=>$m->RequestAction('L5Switch',1),'unknown channel rejected');
 // Reference lifecycle and external feedback refresh.
 $m->ApplyChanges();eq(isset($m->references[20001]),true,'feedback referenced');$before=count($m->updates);$variables[20001]['value']=true;$m->MessageSink(0,20001,VM_UPDATE,[]);eq(count($m->updates),$before+1,'external wall switch triggers refresh');eq(end($m->updates)['lights'][0]['on'],true,'external state in snapshot');
 $m->properties['PendantSwitchStatus']=0;$m->ApplyChanges();eq(isset($m->references[20001]),false,'old reference removed');eq(isset($m->messages[20001]),false,'old message removed');
+// Climate: actual and feedback are read-only; only the actuator target is written.
+eq($initial['climate']['enabled'],false,'climate off by default');
+variable(45000,2,21.5,0);variable(45001,2,22.0);variable(45002,2,20.5,0);
+$m->properties['ClimateEnabled']=true;$m->properties['ClimateActual']=45000;$m->properties['ClimateTarget']=45001;$m->properties['ClimateFeedback']=45002;
+$m->ApplyChanges();$c=end($m->updates)['climate'];eq($c['actual'],21.5,'actual read');eq($c['target'],20.5,'feedback wins');eq($c['canSet'],true,'writable float target');eq($c['step'],0.5,'half-degree buttons');
+$writes=[];$m->RequestAction('ClimateTarget',22.5);eq($writes,[[45001,22.5]],'only target is written');eq(end($m->updates)['climate']['target'],20.5,'no invented actuator feedback');
+foreach([-1,31,'bad',INF,NAN,[],true] as $bad){$writes=[];fails(fn()=>$m->RequestAction('ClimateTarget',$bad),'invalid temperature rejected');eq($writes,[],'invalid temperature not written');}
+foreach([5.0,30.0] as $v){$writes=[];$m->RequestAction('ClimateTarget',$v);eq($writes,[[45001,$v]],'inclusive configured bounds');}
+$m->properties['ClimateEnabled']=false;$writes=[];$m->RequestAction('ClimateTarget',22);eq($writes,[],'disabled climate never writes');$m->properties['ClimateEnabled']=true;
+$variables[45001]['VariableCustomAction']=1;$m->ApplyChanges();eq(end($m->updates)['climate']['canSet'],false,'disabled target action');fails(fn()=>$m->RequestAction('ClimateTarget',22),'disabled action rejected');
+variable(45001,1,22);$m->ApplyChanges();eq(end($m->updates)['climate']['step'],1,'integer target full-degree buttons');$writes=[];$m->RequestAction('ClimateTarget',23);eq($writes,[[45001,23]],'integer preserved');fails(fn()=>$m->RequestAction('ClimateTarget',22.5),'fraction rejected for integer');
+$m->properties['ClimateFeedback']=0;$m->ApplyChanges();eq(end($m->updates)['climate']['target'],22,'target read without separate feedback');
+$m->properties['ClimateMin']=30;$m->ApplyChanges();eq(end($m->updates)['climate']['canSet'],false,'invalid limits disable UI');fails(fn()=>$m->RequestAction('ClimateTarget',30),'invalid limits reject command');$m->properties['ClimateMin']=5;
+$before=count($m->updates);$variables[45000]['value']=19.5;$m->MessageSink(0,45000,VM_UPDATE,[]);eq(count($m->updates),$before+1,'temperature live update');eq(end($m->updates)['climate']['actual'],19.5,'temperature feedback refreshed');
+$variables[45000]['value']=NAN;$m->ApplyChanges();eq(end($m->updates)['climate']['actual'],null,'nonfinite sensor cannot break JSON');
+$m->properties['ClimateActual']=0;$m->ApplyChanges();eq(end($m->updates)['climate']['actual'],null,'unassigned actual unknown');eq(isset($m->references[45000]),false,'temperature old reference removed');
 // Config form matches registered properties, types and unique names.
 $form=json_decode(file_get_contents(__DIR__.'/../RoomTile/form.json'),true,512,JSON_THROW_ON_ERROR);$names=[];
 $walk=function($node)use(&$walk,&$names,$m){if(!is_array($node))return;if(isset($node['name'])){$p=$node['name'];eq(array_key_exists($p,$m->properties),true,'form property '.$p.' registered');eq(isset($names[$p]),false,'unique form name '.$p);$names[$p]=true;}$children=$node['items']??$node['elements']??[];foreach($children as $child)$walk($child);};$walk($form);eq(count($names),count($m->properties),'every registered property configurable');

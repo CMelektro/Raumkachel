@@ -1,0 +1,126 @@
+{
+    "title": "Küche",
+    "showTitle": true,
+    "showSummary": true,
+    "room": "kitchen",
+    "backgroundColor": "#202124",
+    "textColor": "#FFFFFF",
+    "lights": [
+        {
+            "id": "L1",
+            "enabled": true,
+            "name": "Hängelampen",
+            "type": "pendant",
+            "useSwitch": true,
+            "useDim": true,
+            "canSwitch": true,
+            "canDim": true,
+            "on": false,
+            "level": 80,
+            "x": 460,
+            "y": 85,
+            "scale": 100,
+            "autoPosition": true
+        },
+        {
+            "id": "L2",
+            "enabled": true,
+            "name": "Deckenspots",
+            "type": "spots",
+            "useSwitch": true,
+            "useDim": true,
+            "canSwitch": true,
+            "canDim": true,
+            "on": false,
+            "level": 80,
+            "x": 740,
+            "y": 65,
+            "scale": 100,
+            "autoPosition": true
+        },
+        {
+            "id": "L3",
+            "enabled": true,
+            "name": "LED Leiste",
+            "type": "led",
+            "useSwitch": true,
+            "useDim": true,
+            "canSwitch": true,
+            "canDim": true,
+            "on": false,
+            "level": 80,
+            "x": 775,
+            "y": 305,
+            "scale": 100,
+            "autoPosition": true
+        },
+        {
+            "id": "L4",
+            "enabled": true,
+            "name": "Stehlampe",
+            "type": "floor",
+            "useSwitch": true,
+            "useDim": true,
+            "canSwitch": true,
+            "canDim": true,
+            "on": false,
+            "level": 80,
+            "x": 115,
+            "y": 285,
+            "scale": 100,
+            "autoPosition": true
+        }
+    ],
+    "sockets": [
+        {
+            "id": "S1",
+            "enabled": true,
+            "name": "Steckdosen",
+            "on": false,
+            "canSwitch": true
+        },
+        {
+            "id": "S2",
+            "enabled": true,
+            "name": "Steckdosen 2",
+            "on": false,
+            "canSwitch": true
+        }
+    ],
+    "blinds": [
+        {
+            "id": "B1",
+            "enabled": true,
+            "name": "Rollladen 1",
+            "useMove": true,
+            "useStop": true,
+            "usePosition": true,
+            "canMove": true,
+            "canStop": true,
+            "canPosition": true,
+            "position": 30
+        },
+        {
+            "id": "B2",
+            "enabled": true,
+            "name": "Rollladen 2",
+            "useMove": true,
+            "useStop": true,
+            "usePosition": true,
+            "canMove": true,
+            "canStop": true,
+            "canPosition": true,
+            "position": 30
+        }
+    ],
+    "climate": {
+        "enabled": true,
+        "name": "Raumklima",
+        "actual": null,
+        "target": 22,
+        "min": 5,
+        "max": 30,
+        "step": 1,
+        "canSet": true
+    }
+}

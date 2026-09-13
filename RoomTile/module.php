@@ -12,6 +12,13 @@ class Raumkachel extends IPSModule
     {
         parent::Create();
         $this->RegisterPropertyString('Title', 'Küche');
+        $this->RegisterPropertyBoolean('ClimateEnabled', false);
+        $this->RegisterPropertyString('ClimateName', 'Raumklima');
+        $this->RegisterPropertyInteger('ClimateActual', 0);
+        $this->RegisterPropertyInteger('ClimateTarget', 0);
+        $this->RegisterPropertyInteger('ClimateFeedback', 0);
+        $this->RegisterPropertyInteger('ClimateMin', 5);
+        $this->RegisterPropertyInteger('ClimateMax', 30);
         $this->RegisterPropertyBoolean('ShowTitle', true);
         $this->RegisterPropertyBoolean('ShowSummary', true);
         $this->RegisterPropertyString('RoomStyle', 'kitchen');
@@ -142,14 +149,15 @@ class Raumkachel extends IPSModule
 
     public function GetVisualizationTile()
     {
-        $initial = '<script>handleMessage(' .
+        $initial = '<style>' . file_get_contents(__DIR__ . '/climate.css') . '</style><script>'
+            . file_get_contents(__DIR__ . '/climate.js') . '</script><script>handleMessage(' .
             json_encode($this->Snapshot(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ')</script>';
         return str_replace('</body>', $initial . '</body>', file_get_contents(__DIR__ . '/module.html'));
     }
 
     private function VariableProperties()
     {
-        $result = [];
+        $result = ['ClimateActual', 'ClimateTarget', 'ClimateFeedback'];
         foreach (self::LIGHTS as $light) $result = array_merge($result, array_slice($light, 1));
         foreach (['Socket', 'Socket2'] as $p) {
             $result[] = $p . 'Control'; $result[] = $p . 'Status';
@@ -183,7 +191,10 @@ class Raumkachel extends IPSModule
     private function Read($feedback, $command, $types)
     {
         foreach ([$feedback, $command] as $property) {
-            if ($this->Valid($property, $types)) return GetValue($this->ReadPropertyInteger($property));
+            if ($this->Valid($property, $types)) {
+                $value = GetValue($this->ReadPropertyInteger($property));
+                return is_float($value) && !is_finite($value) ? null : $value;
+            }
         }
         return null;
     }
@@ -210,7 +221,18 @@ class Raumkachel extends IPSModule
             'room' => $this->ReadPropertyString('RoomStyle'),
             'backgroundColor' => '#' . sprintf('%06X', $this->ReadPropertyInteger('BackgroundColor')),
             'textColor' => '#' . sprintf('%06X', $this->ReadPropertyInteger('TextColor')),
-            'lights' => [], 'sockets' => [], 'blinds' => []
+            'lights' => [], 'sockets' => [], 'blinds' => [],
+            'climate' => [
+                'enabled' => $this->ReadPropertyBoolean('ClimateEnabled'),
+                'name' => $this->ReadPropertyString('ClimateName'),
+                'actual' => $this->Read('ClimateActual', 'ClimateActual', [1,2]),
+                'target' => $this->Read('ClimateFeedback', 'ClimateTarget', [1,2]),
+                'min' => $this->ReadPropertyInteger('ClimateMin'),
+                'max' => $this->ReadPropertyInteger('ClimateMax'),
+                'step' => $this->Valid('ClimateTarget', [1]) ? 1 : 0.5,
+                'canSet' => $this->Writable('ClimateTarget', [1,2])
+                    && $this->ReadPropertyInteger('ClimateMin') < $this->ReadPropertyInteger('ClimateMax')
+            ]
         ];
         foreach (self::LIGHTS as $index => $light) {
             [$p, $sw, $sf, $dim, $df] = $light;
@@ -288,7 +310,20 @@ class Raumkachel extends IPSModule
 
     private function ExecuteAction($Ident, $Value)
     {
-        if (preg_match('/^L([1-4])(Switch|Dim)$/D', $Ident, $m)) {
+        if ($Ident === 'ClimateTarget') {
+            if (!$this->ReadPropertyBoolean('ClimateEnabled')) return;
+            if (!is_numeric($Value) || !is_finite((float)$Value)) throw new InvalidArgumentException('Ungültige Solltemperatur.');
+            $value = (float)$Value;
+            $min = $this->ReadPropertyInteger('ClimateMin');
+            $max = $this->ReadPropertyInteger('ClimateMax');
+            if ($min >= $max || $value < $min || $value > $max) throw new InvalidArgumentException('Solltemperatur außerhalb der eingestellten Grenzen.');
+            if (!$this->Writable('ClimateTarget', [1,2])) throw new RuntimeException('Sollwertvariable ist nicht bedienbar.');
+            if ($this->Valid('ClimateTarget', [1])) {
+                if (floor($value) !== $value) throw new InvalidArgumentException('Diese Sollwertvariable benötigt ganze Grad.');
+                $value = (int)$value;
+            }
+            $this->Write('ClimateTarget', $value, [1,2]);
+        } elseif (preg_match('/^L([1-4])(Switch|Dim)$/D', $Ident, $m)) {
             [$p, $sw, $sf, $dim, $df] = self::LIGHTS[(int)$m[1]-1];
             if (!$this->ReadPropertyBoolean($p . 'Enabled')) return;
             if ($m[2] === 'Switch' && $this->ReadPropertyBoolean($p . 'UseSwitch')) {
