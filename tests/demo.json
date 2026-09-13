@@ -1,0 +1,112 @@
+{
+  "title": "Küche",
+  "showTitle": true,
+  "showSummary": true,
+  "room": "kitchen",
+  "backgroundColor": "#202124",
+  "textColor": "#fff",
+  "lights": [
+    {
+      "id": "L1",
+      "name": "Hängelampen",
+      "type": "pendant",
+      "x": 460,
+      "y": 85,
+      "scale": 100,
+      "enabled": true,
+      "useSwitch": true,
+      "useDim": true,
+      "canSwitch": true,
+      "canDim": true,
+      "on": true,
+      "level": 70
+    },
+    {
+      "id": "L2",
+      "name": "Deckenspots",
+      "type": "spots",
+      "x": 740,
+      "y": 65,
+      "scale": 100,
+      "enabled": true,
+      "useSwitch": true,
+      "useDim": true,
+      "canSwitch": true,
+      "canDim": true,
+      "on": true,
+      "level": 45
+    },
+    {
+      "id": "L3",
+      "name": "Arbeitslicht",
+      "type": "led",
+      "x": 775,
+      "y": 305,
+      "scale": 100,
+      "enabled": true,
+      "useSwitch": true,
+      "useDim": false,
+      "canSwitch": true,
+      "canDim": true,
+      "on": true,
+      "level": 70
+    },
+    {
+      "id": "L4",
+      "name": "Leseleuchte",
+      "type": "floor",
+      "x": 115,
+      "y": 285,
+      "scale": 100,
+      "enabled": false,
+      "useSwitch": true,
+      "useDim": true,
+      "canSwitch": true,
+      "canDim": true,
+      "on": true,
+      "level": 70
+    }
+  ],
+  "sockets": [
+    {
+      "id": "S1",
+      "name": "Kaffeemaschine",
+      "enabled": true,
+      "on": false,
+      "canSwitch": true
+    },
+    {
+      "id": "S2",
+      "name": "Arbeitsfläche",
+      "enabled": true,
+      "on": true,
+      "canSwitch": true
+    }
+  ],
+  "blinds": [
+    {
+      "id": "B1",
+      "name": "Fenster links",
+      "enabled": true,
+      "useMove": true,
+      "useStop": true,
+      "usePosition": true,
+      "canMove": true,
+      "canStop": true,
+      "canPosition": true,
+      "position": 35
+    },
+    {
+      "id": "B2",
+      "name": "Fenster rechts",
+      "enabled": true,
+      "useMove": true,
+      "useStop": true,
+      "usePosition": true,
+      "canMove": true,
+      "canStop": true,
+      "canPosition": true,
+      "position": 70
+    }
+  ]
+}

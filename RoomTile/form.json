@@ -1,0 +1,950 @@
+{
+  "elements": [
+    {
+      "type": "Label",
+        "caption": "Raumkachel 2.1.9 · Raum auswählen und gewünschte Geräte aktivieren."
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Allgemein",
+      "items": [
+        {
+          "type": "ValidationTextBox",
+          "name": "Title",
+          "caption": "Raumname (auch Instanzname im Objektbaum)"
+        },
+        {
+          "type": "Label",
+          "caption": "Beim Übernehmen wird der Raumname als Instanzname gesetzt. Ein leeres Feld blendet den Titel aus und behält den bisherigen Instanznamen. Über 'Titel anzeigen' lässt sich nur die Anzeige innerhalb der Kachel ausblenden."
+        },
+        {
+          "type": "CheckBox",
+          "name": "ShowTitle",
+          "caption": "Titel anzeigen"
+        },
+        {
+          "type": "CheckBox",
+          "name": "ShowSummary",
+          "caption": "Statusübersicht anzeigen"
+        },
+        {
+          "type": "Select",
+          "name": "RoomStyle",
+          "caption": "Raummotiv",
+          "options": [
+            {
+              "caption": "Küche",
+              "value": "kitchen"
+            },
+            {
+              "caption": "Eingangsbereich",
+              "value": "hall"
+            },
+            {
+              "caption": "Durchgangsflur",
+              "value": "corridor"
+            },
+            {
+              "caption": "Wohnzimmer",
+              "value": "living"
+            },
+            {
+              "caption": "Esszimmer",
+              "value": "dining"
+            },
+            {
+              "caption": "Gäste-WC",
+              "value": "guest_wc"
+            },
+            {
+              "caption": "Kinderzimmer",
+              "value": "children"
+            },
+            {
+              "caption": "Elternschlafzimmer",
+              "value": "bedroom"
+            },
+            {
+              "caption": "Treppenhaus",
+              "value": "staircase"
+            },
+            {
+              "caption": "Büro",
+              "value": "office"
+            },
+            {
+              "caption": "Hauswirtschaftsraum",
+              "value": "utility"
+            },
+            {
+              "caption": "Technikraum",
+              "value": "technical"
+            },
+            {
+              "caption": "Abstellraum",
+              "value": "storage"
+            },
+            {
+              "caption": "Neutral (zusätzlich)",
+              "value": "neutral"
+            }
+          ]
+        },
+        {
+          "type": "SelectColor",
+          "name": "BackgroundColor",
+          "caption": "Hintergrundfarbe",
+          "allowTransparent": false
+        },
+        {
+          "type": "SelectColor",
+          "name": "TextColor",
+          "caption": "Schriftfarbe",
+          "allowTransparent": false
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Lichtkreis 1",
+      "items": [
+        {
+          "type": "CheckBox",
+          "name": "PendantEnabled",
+          "caption": "Lichtkreis aktiv"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "PendantName",
+          "caption": "Bezeichnung"
+        },
+        {
+          "type": "Select",
+          "name": "PendantType",
+          "caption": "Leuchtenart",
+          "options": [
+            {
+              "caption": "Hängelampe",
+              "value": "pendant"
+            },
+            {
+              "caption": "Stehlampe",
+              "value": "floor"
+            },
+            {
+              "caption": "Spots",
+              "value": "spots"
+            },
+            {
+              "caption": "LED-Leiste",
+              "value": "led"
+            },
+            {
+              "caption": "Panelleuchte",
+              "value": "panel"
+            },
+            {
+              "caption": "Wandleuchte",
+              "value": "wall"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "PendantUseSwitch",
+          "caption": "Ein/Aus anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "PendantSwitch",
+          "caption": "Schaltbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "PendantSwitchStatus",
+          "caption": "Schaltrückmeldung (optional)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "PendantUseDim",
+          "caption": "Dimmregler anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "PendantControl",
+          "caption": "Absoluter Dimmwert",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "PendantStatus",
+          "caption": "Dimmwertrückmeldung (optional)",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "Select",
+          "name": "PendantMaximum",
+          "caption": "Dimmwertebereich",
+          "options": [
+            {
+              "caption": "0–100 %",
+              "value": 100
+            },
+            {
+              "caption": "0–255",
+              "value": 255
+            },
+            {
+              "caption": "0–1 (Float)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "PendantAutoPosition",
+          "caption": "Leuchte automatisch passend zum Raum platzieren"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "PendantX",
+          "caption": "Manuell: Position im Bild: X (0–1000)",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "PendantY",
+          "caption": "Manuell: Position im Bild: Y (0–650)",
+          "minimum": 0,
+          "maximum": 650
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "PendantScale",
+          "caption": "Manuell: Größe im Bild (%)",
+          "minimum": 30,
+          "maximum": 180
+        },
+        {
+          "type": "Label",
+          "caption": "Automatik passt Position, Größe und Lichtfläche an Raum und Leuchtenart an. Im Treppenhaus verläuft die LED-Leiste entlang des Aufgangs. Für eigene Positionen die Automatik deaktivieren."
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Lichtkreis 2",
+      "items": [
+        {
+          "type": "CheckBox",
+          "name": "SpotEnabled",
+          "caption": "Lichtkreis aktiv"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "SpotName",
+          "caption": "Bezeichnung"
+        },
+        {
+          "type": "Select",
+          "name": "SpotType",
+          "caption": "Leuchtenart",
+          "options": [
+            {
+              "caption": "Hängelampe",
+              "value": "pendant"
+            },
+            {
+              "caption": "Stehlampe",
+              "value": "floor"
+            },
+            {
+              "caption": "Spots",
+              "value": "spots"
+            },
+            {
+              "caption": "LED-Leiste",
+              "value": "led"
+            },
+            {
+              "caption": "Panelleuchte",
+              "value": "panel"
+            },
+            {
+              "caption": "Wandleuchte",
+              "value": "wall"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "SpotUseSwitch",
+          "caption": "Ein/Aus anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "SpotSwitch",
+          "caption": "Schaltbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "SpotSwitchStatus",
+          "caption": "Schaltrückmeldung (optional)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "SpotUseDim",
+          "caption": "Dimmregler anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "SpotControl",
+          "caption": "Absoluter Dimmwert",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "SpotStatus",
+          "caption": "Dimmwertrückmeldung (optional)",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "Select",
+          "name": "SpotMaximum",
+          "caption": "Dimmwertebereich",
+          "options": [
+            {
+              "caption": "0–100 %",
+              "value": 100
+            },
+            {
+              "caption": "0–255",
+              "value": 255
+            },
+            {
+              "caption": "0–1 (Float)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "SpotAutoPosition",
+          "caption": "Leuchte automatisch passend zum Raum platzieren"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "SpotX",
+          "caption": "Manuell: Position im Bild: X (0–1000)",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "SpotY",
+          "caption": "Manuell: Position im Bild: Y (0–650)",
+          "minimum": 0,
+          "maximum": 650
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "SpotScale",
+          "caption": "Manuell: Größe im Bild (%)",
+          "minimum": 30,
+          "maximum": 180
+        },
+        {
+          "type": "Label",
+          "caption": "Automatik passt Position, Größe und Lichtfläche an Raum und Leuchtenart an. Im Treppenhaus verläuft die LED-Leiste entlang des Aufgangs. Für eigene Positionen die Automatik deaktivieren."
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Lichtkreis 3",
+      "items": [
+        {
+          "type": "CheckBox",
+          "name": "LedEnabled",
+          "caption": "Lichtkreis aktiv"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "LedName",
+          "caption": "Bezeichnung"
+        },
+        {
+          "type": "Select",
+          "name": "LedType",
+          "caption": "Leuchtenart",
+          "options": [
+            {
+              "caption": "Hängelampe",
+              "value": "pendant"
+            },
+            {
+              "caption": "Stehlampe",
+              "value": "floor"
+            },
+            {
+              "caption": "Spots",
+              "value": "spots"
+            },
+            {
+              "caption": "LED-Leiste",
+              "value": "led"
+            },
+            {
+              "caption": "Panelleuchte",
+              "value": "panel"
+            },
+            {
+              "caption": "Wandleuchte",
+              "value": "wall"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "LedUseSwitch",
+          "caption": "Ein/Aus anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "LedControl",
+          "caption": "Schaltbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "LedStatus",
+          "caption": "Schaltrückmeldung (optional)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "LedUseDim",
+          "caption": "Dimmregler anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "LedDimControl",
+          "caption": "Absoluter Dimmwert",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "LedDimStatus",
+          "caption": "Dimmwertrückmeldung (optional)",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "Select",
+          "name": "LedMaximum",
+          "caption": "Dimmwertebereich",
+          "options": [
+            {
+              "caption": "0–100 %",
+              "value": 100
+            },
+            {
+              "caption": "0–255",
+              "value": 255
+            },
+            {
+              "caption": "0–1 (Float)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "LedAutoPosition",
+          "caption": "Leuchte automatisch passend zum Raum platzieren"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "LedX",
+          "caption": "Manuell: Position im Bild: X (0–1000)",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "LedY",
+          "caption": "Manuell: Position im Bild: Y (0–650)",
+          "minimum": 0,
+          "maximum": 650
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "LedScale",
+          "caption": "Manuell: Größe im Bild (%)",
+          "minimum": 30,
+          "maximum": 180
+        },
+        {
+          "type": "Label",
+          "caption": "Automatik passt Position, Größe und Lichtfläche an Raum und Leuchtenart an. Im Treppenhaus verläuft die LED-Leiste entlang des Aufgangs. Für eigene Positionen die Automatik deaktivieren."
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Lichtkreis 4",
+      "items": [
+        {
+          "type": "CheckBox",
+          "name": "Light4Enabled",
+          "caption": "Lichtkreis aktiv"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "Light4Name",
+          "caption": "Bezeichnung"
+        },
+        {
+          "type": "Select",
+          "name": "Light4Type",
+          "caption": "Leuchtenart",
+          "options": [
+            {
+              "caption": "Hängelampe",
+              "value": "pendant"
+            },
+            {
+              "caption": "Stehlampe",
+              "value": "floor"
+            },
+            {
+              "caption": "Spots",
+              "value": "spots"
+            },
+            {
+              "caption": "LED-Leiste",
+              "value": "led"
+            },
+            {
+              "caption": "Panelleuchte",
+              "value": "panel"
+            },
+            {
+              "caption": "Wandleuchte",
+              "value": "wall"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "Light4UseSwitch",
+          "caption": "Ein/Aus anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Light4Switch",
+          "caption": "Schaltbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Light4SwitchStatus",
+          "caption": "Schaltrückmeldung (optional)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "Light4UseDim",
+          "caption": "Dimmregler anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Light4Control",
+          "caption": "Absoluter Dimmwert",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Light4Status",
+          "caption": "Dimmwertrückmeldung (optional)",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "Select",
+          "name": "Light4Maximum",
+          "caption": "Dimmwertebereich",
+          "options": [
+            {
+              "caption": "0–100 %",
+              "value": 100
+            },
+            {
+              "caption": "0–255",
+              "value": 255
+            },
+            {
+              "caption": "0–1 (Float)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "Light4AutoPosition",
+          "caption": "Leuchte automatisch passend zum Raum platzieren"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "Light4X",
+          "caption": "Manuell: Position im Bild: X (0–1000)",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "Light4Y",
+          "caption": "Manuell: Position im Bild: Y (0–650)",
+          "minimum": 0,
+          "maximum": 650
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "Light4Scale",
+          "caption": "Manuell: Größe im Bild (%)",
+          "minimum": 30,
+          "maximum": 180
+        },
+        {
+          "type": "Label",
+          "caption": "Automatik passt Position, Größe und Lichtfläche an Raum und Leuchtenart an. Im Treppenhaus verläuft die LED-Leiste entlang des Aufgangs. Für eigene Positionen die Automatik deaktivieren."
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Schaltkreis 1",
+      "items": [
+        {
+          "type": "CheckBox",
+          "name": "ShowSocket",
+          "caption": "Schaltkreis aktiv"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "SocketName",
+          "caption": "Bezeichnung"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "SocketControl",
+          "caption": "Schaltbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "SocketStatus",
+          "caption": "Schaltrückmeldung (optional)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "Label",
+          "caption": "Erscheint bei Aktivierung und zugeordneter Boolean-Schaltvariable."
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Schaltkreis 2",
+      "items": [
+        {
+          "type": "CheckBox",
+          "name": "Socket2Enabled",
+          "caption": "Schaltkreis aktiv"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "Socket2Name",
+          "caption": "Bezeichnung"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Socket2Control",
+          "caption": "Schaltbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Socket2Status",
+          "caption": "Schaltrückmeldung (optional)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "Label",
+          "caption": "Erscheint bei Aktivierung und zugeordneter Boolean-Schaltvariable."
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Rollladen 1",
+      "items": [
+        {
+          "type": "CheckBox",
+          "name": "Blind1Enabled",
+          "caption": "Rollladen aktiv (Bedienung und Fenster im Bild)"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "Blind1Name",
+          "caption": "Bezeichnung"
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind1UseMove",
+          "caption": "Hoch/Runter anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Blind1Move",
+          "caption": "Fahrbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind1DownValue",
+          "caption": "Abwärts sendet TRUE (aufwärts FALSE)"
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind1UseStop",
+          "caption": "Stopp anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Blind1Stop",
+          "caption": "Stoppbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind1StopValue",
+          "caption": "Stopp sendet TRUE"
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind1UsePosition",
+          "caption": "Positionsregler anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Blind1Position",
+          "caption": "Absolute Position",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Blind1Feedback",
+          "caption": "Positionsrückmeldung (optional)",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "Select",
+          "name": "Blind1Maximum",
+          "caption": "Positionswertebereich",
+          "options": [
+            {
+              "caption": "0–100 %",
+              "value": 100
+            },
+            {
+              "caption": "0–255",
+              "value": 255
+            },
+            {
+              "caption": "0–1 (Float)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind1Invert",
+          "caption": "Variablenrichtung umkehren (Variable 0 = geschlossen)"
+        },
+        {
+          "type": "Label",
+          "caption": "Anzeige immer: 0 % offen, 100 % geschlossen. Für eine tatsächliche Positionsanzeige die Rückmeldung zuordnen. Die Fahr- und Stoppvariablen müssen bereits passende Aktionen in Symcon besitzen."
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Rollladen 2",
+      "items": [
+        {
+          "type": "CheckBox",
+          "name": "Blind2Enabled",
+          "caption": "Rollladen aktiv (Bedienung und Fenster im Bild)"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "Blind2Name",
+          "caption": "Bezeichnung"
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind2UseMove",
+          "caption": "Hoch/Runter anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Blind2Move",
+          "caption": "Fahrbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind2DownValue",
+          "caption": "Abwärts sendet TRUE (aufwärts FALSE)"
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind2UseStop",
+          "caption": "Stopp anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Blind2Stop",
+          "caption": "Stoppbefehl (Boolean)",
+          "validVariableTypes": [
+            0
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind2StopValue",
+          "caption": "Stopp sendet TRUE"
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind2UsePosition",
+          "caption": "Positionsregler anzeigen"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Blind2Position",
+          "caption": "Absolute Position",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "SelectVariable",
+          "name": "Blind2Feedback",
+          "caption": "Positionsrückmeldung (optional)",
+          "validVariableTypes": [
+            1,
+            2
+          ]
+        },
+        {
+          "type": "Select",
+          "name": "Blind2Maximum",
+          "caption": "Positionswertebereich",
+          "options": [
+            {
+              "caption": "0–100 %",
+              "value": 100
+            },
+            {
+              "caption": "0–255",
+              "value": 255
+            },
+            {
+              "caption": "0–1 (Float)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "name": "Blind2Invert",
+          "caption": "Variablenrichtung umkehren (Variable 0 = geschlossen)"
+        },
+        {
+          "type": "Label",
+          "caption": "Anzeige immer: 0 % offen, 100 % geschlossen. Für eine tatsächliche Positionsanzeige die Rückmeldung zuordnen. Die Fahr- und Stoppvariablen müssen bereits passende Aktionen in Symcon besitzen."
+        }
+      ]
+    },
+    {
+      "type": "Label",
+      "caption": "Deaktivierte Kreise und nicht gewählte Funktionen bleiben unsichtbar. Aktive, aber unvollständig zugeordnete Funktionen sind nicht bedienbar. Jede Instanz kann unabhängig konfiguriert werden."
+    }
+  ]
+}

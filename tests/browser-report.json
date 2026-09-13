@@ -1,0 +1,64 @@
+{
+  "checks": 4613,
+  "bounds": [],
+  "layouts": [
+    {
+      "width": 1280,
+      "height": 800,
+      "verticalOverflow": 0,
+      "horizontalOverflow": 0,
+      "overlapping": false
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "verticalOverflow": 0,
+      "horizontalOverflow": 0,
+      "overlapping": false
+    },
+    {
+      "width": 900,
+      "height": 900,
+      "verticalOverflow": 0,
+      "horizontalOverflow": 0,
+      "overlapping": false
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "verticalOverflow": 0,
+      "horizontalOverflow": 0,
+      "overlapping": false
+    },
+    {
+      "width": 760,
+      "height": 700,
+      "verticalOverflow": 0,
+      "horizontalOverflow": 0,
+      "overlapping": false
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "verticalOverflow": 0,
+      "horizontalOverflow": 0,
+      "overlapping": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "verticalOverflow": 0,
+      "horizontalOverflow": 0,
+      "overlapping": false
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "verticalOverflow": 0,
+      "horizontalOverflow": 0,
+      "overlapping": false
+    }
+  ],
+  "browser": "153.0.8010.0",
+  "pageErrors": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "{95207FE5-8A45-4275-9F0A-0A4965D8CD58}",
+  "name": "Raumkachel",
+  "type": 3,
+  "vendor": "",
+  "aliases": [
+    "Raumkachel",
+    "Flexible Raumsteuerung"
+  ],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "TVK",
+  "url": ""
+}
