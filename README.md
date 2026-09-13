@@ -1,6 +1,6 @@
-# Raumkachel 2.1.9
+# Raumkachel 2.1.10
 
-Korrektur in 2.1.9: Der HTML-Visualisierungstyp wird nun auch bei bestehenden Instanzen während `ApplyChanges()` gesetzt. Damit erscheint nach einem Update wieder die Raumgrafik statt einer leeren Standardkachel.
+Korrektur in 2.1.10: Für Symcon 9.0 wird wieder der unterstützte HTML-Visualisierungstyp 1 verwendet. Typ 2 steht erst ab Symcon 9.1 zur Verfügung und führte unter 9.0 zur fehlenden Raumgrafik. Der Typ wird auch bei bestehenden Instanzen während `ApplyChanges()` gesetzt.
 
 Dunkle Raumdarstellung mit einzeln aktivierbaren Grafikelementen. Eine Modulbibliothek, beliebig viele unabhängig konfigurierte Instanzen: Küche, Eingangsbereich, Durchgangsflur, Wohnzimmer, Esszimmer, Gäste-WC, Kinderzimmer, Elternschlafzimmer, Treppenhaus, Büro, Hauswirtschaftsraum, Technikraum und Abstellraum. Die bisherige neutrale Auswahl bleibt zusätzlich verfügbar.
 

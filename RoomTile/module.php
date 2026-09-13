@@ -107,16 +107,16 @@ class Raumkachel extends IPSModule
         $this->RegisterPropertyInteger('Blind2Stop', 0);
         $this->RegisterPropertyInteger('Blind2Position', 0);
         $this->RegisterPropertyInteger('Blind2Feedback', 0);
-        // Symcon 9: use the HTML presentation in the normal tile and in full screen.
-        $this->SetVisualizationType(2);
+        // Symcon 9.0 supports the HTML-SDK with visualization type 1.
+        // Type 2 is available only from Symcon 9.1 onward.
+        $this->SetVisualizationType(1);
     }
 
     public function ApplyChanges()
     {
         parent::ApplyChanges();
-        // Existing instances do not run Create() again after a module update.
-        // Reapply the HTML presentation so their normal tile renders the room graphic.
-        $this->SetVisualizationType(2);
+        // Apply this to existing instances as Create() is not called again after updates.
+        $this->SetVisualizationType(1);
         $roomName = trim($this->ReadPropertyString('Title'));
         if ($roomName !== '' && IPS_GetName($this->InstanceID) !== $roomName) {
             IPS_SetName($this->InstanceID, $roomName);
