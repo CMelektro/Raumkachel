@@ -116,14 +116,16 @@ class Raumkachel extends IPSModule
         $this->RegisterPropertyInteger('Blind2Feedback', 0);
         // Symcon 9.0 supports the HTML-SDK with visualization type 1.
         // Type 2 is available only from Symcon 9.1 onward.
-        $this->SetVisualizationType(2);
+        $this->SetVisualizationType(defined('INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN')
+            ? constant('INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN') : 1);
     }
 
     public function ApplyChanges()
     {
         parent::ApplyChanges();
         // Apply this to existing instances as Create() is not called again after updates.
-        $this->SetVisualizationType(2);
+        $this->SetVisualizationType(defined('INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN')
+            ? constant('INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN') : 1);
         // The visual title and the object-tree instance name are independent.
         foreach ($this->GetReferenceList() as $id) $this->UnregisterReference($id);
         foreach ($this->GetMessageList() as $id => $messages) {

@@ -2,7 +2,7 @@
   "elements": [
     {
       "type": "Label",
-      "caption": "Raumkachel 2.4.0 · Raum auswählen und gewünschte Geräte aktivieren."
+      "caption": "Raumkachel 2.4.1 · Raum auswählen und gewünschte Geräte aktivieren."
     },
     {
       "type": "ExpansionPanel",
