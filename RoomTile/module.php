@@ -116,18 +116,15 @@ class Raumkachel extends IPSModule
         $this->RegisterPropertyInteger('Blind2Feedback', 0);
         // Symcon 9.0 supports the HTML-SDK with visualization type 1.
         // Type 2 is available only from Symcon 9.1 onward.
-        $this->SetVisualizationType(1);
+        $this->SetVisualizationType(2);
     }
 
     public function ApplyChanges()
     {
         parent::ApplyChanges();
         // Apply this to existing instances as Create() is not called again after updates.
-        $this->SetVisualizationType(1);
-        $roomName = trim($this->ReadPropertyString('Title'));
-        if ($roomName !== '' && IPS_GetName($this->InstanceID) !== $roomName) {
-            IPS_SetName($this->InstanceID, $roomName);
-        }
+        $this->SetVisualizationType(2);
+        // The visual title and the object-tree instance name are independent.
         foreach ($this->GetReferenceList() as $id) $this->UnregisterReference($id);
         foreach ($this->GetMessageList() as $id => $messages) {
             foreach ($messages as $message) $this->UnregisterMessage($id, $message);
@@ -149,10 +146,10 @@ class Raumkachel extends IPSModule
 
     public function GetVisualizationTile()
     {
-        $initial = '<style>' . file_get_contents(__DIR__ . '/climate.css') . '</style><script>'
-            . file_get_contents(__DIR__ . '/climate.js') . '</script><script>handleMessage(' .
+        $html = str_replace('/*CM_EXTENSIONS*/', file_get_contents(__DIR__ . '/climate.js'), file_get_contents(__DIR__ . '/module.html'));
+        $initial = '<style>' . file_get_contents(__DIR__ . '/climate.css') . '</style><script>window.handleMessage(' .
             json_encode($this->Snapshot(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ')</script>';
-        return str_replace('</body>', $initial . '</body>', file_get_contents(__DIR__ . '/module.html'));
+        return str_replace('</body>', $initial . '</body>', $html);
     }
 
     private function VariableProperties()
@@ -212,9 +209,20 @@ class Raumkachel extends IPSModule
             && $this->Valid($p . 'Control', [0]);
     }
 
+    private function SceneImage()
+    {
+        $room = $this->ReadPropertyString('RoomStyle');
+        $allowed = ['kitchen','hall','corridor','living','dining','guest_wc','children','bedroom','staircase','office','utility','technical','storage','neutral'];
+        if (!in_array($room, $allowed, true)) $room = 'neutral';
+        if ($room === 'neutral') $room = 'office';
+        $path = __DIR__ . '/assets/rooms/' . $room . '.jpg';
+        return is_file($path) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($path)) : '';
+    }
+
     private function Snapshot()
     {
         $result = [
+            'sceneImage' => $this->SceneImage(),
             'title' => $this->ReadPropertyString('Title'),
             'showTitle' => $this->ReadPropertyBoolean('ShowTitle'),
             'showSummary' => $this->ReadPropertyBoolean('ShowSummary'),

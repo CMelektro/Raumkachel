@@ -2,7 +2,7 @@
   "elements": [
     {
       "type": "Label",
-      "caption": "Raumkachel 2.3.0 · Raum auswählen und gewünschte Geräte aktivieren."
+      "caption": "Raumkachel 2.4.0 · Raum auswählen und gewünschte Geräte aktivieren."
     },
     {
       "type": "ExpansionPanel",
@@ -11,11 +11,11 @@
         {
           "type": "ValidationTextBox",
           "name": "Title",
-          "caption": "Raumname (auch Instanzname im Objektbaum)"
+          "caption": "Titel in der Kachel"
         },
         {
           "type": "Label",
-          "caption": "Beim Übernehmen wird der Raumname als Instanzname gesetzt. Ein leeres Feld blendet den Titel aus und behält den bisherigen Instanznamen. Über 'Titel anzeigen' lässt sich nur die Anzeige innerhalb der Kachel ausblenden."
+          "caption": "Dieser Titel ist unabhängig vom Instanznamen im Objektbaum. Ein leerer Titel oder die ausgeschaltete Option 'Titel anzeigen' blendet den eigenen Kacheltitel aus. Der Instanzname wird hierdurch nicht geändert."
         },
         {
           "type": "CheckBox",
@@ -146,6 +146,10 @@
             {
               "caption": "Wandleuchte",
               "value": "wall"
+            },
+            {
+              "caption": "Wegelicht (Wandeinbau, bodennah)",
+              "value": "path"
             }
           ]
         },
@@ -286,6 +290,10 @@
             {
               "caption": "Wandleuchte",
               "value": "wall"
+            },
+            {
+              "caption": "Wegelicht (Wandeinbau, bodennah)",
+              "value": "path"
             }
           ]
         },
@@ -426,6 +434,10 @@
             {
               "caption": "Wandleuchte",
               "value": "wall"
+            },
+            {
+              "caption": "Wegelicht (Wandeinbau, bodennah)",
+              "value": "path"
             }
           ]
         },
@@ -566,6 +578,10 @@
             {
               "caption": "Wandleuchte",
               "value": "wall"
+            },
+            {
+              "caption": "Wegelicht (Wandeinbau, bodennah)",
+              "value": "path"
             }
           ]
         },
