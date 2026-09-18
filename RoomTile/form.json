@@ -2,7 +2,7 @@
   "elements": [
     {
       "type": "Label",
-      "caption": "Raumkachel 2.4.1 · Raum auswählen und gewünschte Geräte aktivieren."
+      "caption": "Raumkachel 2.4.2 · Raum auswählen und gewünschte Geräte aktivieren."
     },
     {
       "type": "ExpansionPanel",
@@ -63,6 +63,10 @@
             {
               "caption": "Elternschlafzimmer",
               "value": "bedroom"
+            },
+            {
+              "caption": "Gästezimmer",
+              "value": "guestroom"
             },
             {
               "caption": "Treppenhaus",
