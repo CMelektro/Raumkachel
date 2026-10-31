@@ -1,25 +1,37 @@
-# Kompatibilitätskorrektur: Raumkachel 2.4.1 / Raumübersicht 1.2.1
+# Raumkachel 2.4.4 · Garage mit Küchenzeile
 
-## Bestätigter Fehler im ausgelieferten Code
-Beide Vorgängerversionen riefen bedingungslos SetVisualizationType(2) auf, obwohl als Mindestversion 9.0 angegeben war. Die aktuell abgerufene offizielle Dokumentation nennt für Typ 2 ausdrücklich 9.1. Der bisherige Test-Dummy akzeptierte jeden Wert und konnte diesen Kompatibilitätsfehler nicht erkennen. Die frühere Aussage „Typ 2 seit 9.0“ war falsch.
+Ergänzt das Raummotiv **Garage mit Küchenzeile** in der bisherigen Raumkachel und Raumübersicht. Autor: CMelektro.
 
-## Korrektur
-Ohne die vom Server bereitgestellte Konstante INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN verwenden Create und ApplyChanges den klassischen HTML-Typ 1. Nur bei vorhandener Konstante wird Vollbild registriert. Es wird keine Konstante im Produktcode nachträglich definiert.
+## Update und Einrichtung
 
-Ohne HTML-Vollbildunterstützung löst die Übersicht eine gewählte Instanz zur nächsten übergeordneten Kategorie auf. Unzulässige Ziele, fehlende Kategorie und zyklische Elternketten werden abgefangen. Die gespeicherte Zielzuordnung wird nicht verändert. In Symcon 9.0 muss die Raumkachel innerhalb ihrer sichtbaren Raumkategorie liegen. Die Freigaben der tatsächlichen Visu können hier nicht überprüft werden.
+1. ZIP entpacken und den Inhalt des Ordners Raumkachel in das bisherige entsprechende GitHub-Repository hochladen. library.json und RoomTile müssen direkt auf der obersten Ebene liegen. Die neue Datei RoomTile/assets/rooms/garage_kitchen.jpg vollständig mit hochladen.
+2. Bibliothek in Symcon aktualisieren. Vorhandene Instanzen und Zuordnungen bleiben erhalten.
+3. Eine zusätzliche Raumkachel-Instanz für die Garage anlegen oder eine gewünschte vorhandene Instanz öffnen. Unter Allgemein → Raummotiv **Garage mit Küchenzeile** auswählen.
+4. Pro Lichtkreis den **Beleuchtungsbereich: Torbereich oder Küchenzeile** auswählen, die Leuchtenart wählen und Schalt-/Dimmvariablen wie gewohnt getrennt zuordnen. Die Bereichsauswahl erscheint nur beim Garagenmotiv. Für die Bereichsplatzierung **Automatische Positionierung** aktiv lassen. Bei manuellen X-/Y-Angaben haben diese bewusst Vorrang.
+5. Alle vier Lichtkreise bleiben verfügbar und frei zuordenbar, z. B. zwei am Tor und zwei an der Küchenzeile. In der Übersicht die entsprechenden Statusvariablen, Leuchtenarten und Bereiche ebenfalls zuordnen. Die bisherigen zwei Steckdosenkreise, Jalousien und der optionale Klimakreis stehen weiterhin zur Verfügung.
+6. Änderungen übernehmen und Visu neu öffnen. Für die neue Formfunktion muss die aktualisierte Instanzkonfiguration neu geöffnet werden, falls sie während des Updates noch offen war.
 
-## Prüfung dieses Updates
-- 409 Raumkachel- und 39 Übersicht-PHP-Prüfungen bestanden. Die API-Simulation lehnt Typ 2 ohne passende SDK-Unterstützung jetzt ausdrücklich ab.
-- Neue und bestehende Instanzen, Umschaltung bei vorhandener Vollbild-Konstante, Kategorien, verknüpfte und verschachtelte Instanzen, Wurzelobjekte, zyklische Elternketten und ungültige Ziele geprüft.
-- 21 gezielte Browserprüfungen der vom PHP-Modul erzeugten HTML-Ausgabe: eingebettete Bilder dekodieren, wiederholter Ansichtswechsel ohne JavaScript-Fehler, Klick übergibt Kategorie 500 statt Instanz 600 an openObject.
-- HTML-Ausgaben etwa 93 KB und 108 KB; ZIP-Integrität, Modulkennungen und enthaltene Grafikdateien geprüft.
+Die Bilddarstellung schaltet und dimmt Tor- und Küchenbeleuchtung unabhängig. Gleiche Leuchtenarten in verschiedenen Bereichen beeinflussen ihre automatische Position und Segmentierung nicht gegenseitig. Deaktivierte Lichtkreise bleiben wie bisher unsichtbar. Die Kreisnamen sind weiterhin frei einstellbar; die Bedienkarte ergänzt bei diesem Motiv den Bereich zum Status.
 
-## Grenzen
-Die PHP-Schnittstelle und openObject sind lokal simuliert; das ist kein Test auf einer echten SymBox. Ein abschließender Anlagentest ist weiterhin nötig. Der native Vergrößerungspfeil bleibt bestehen. Unter Symcon 9.0 wird dessen HTML-Vollbildansicht nicht unterstützt; der Pfeil wurde nicht durch einen Eingriff in den Symcon-Client verdeckt. Die normale Raumkachel und die Navigation über Kategorien verwenden die für 9.0 dokumentierten Funktionen.
+Das gezeichnete Garagentor ist ein fester Teil des Motivs. Dieses Update ergänzt keine Torsteuerung; die vorhandenen Jalousiefunktionen bleiben unverändert.
 
-Die Raumgrafiken, Wegelicht, Klimafunktionen und unabhängigen Titel entsprechen der letzten Gestaltung und wurden für diese Fehlerkorrektur nicht neu entworfen. Es handelt sich um illustrative Lichtdarstellungen, keine physikalische Lichtsimulation.
+## Kompatibilität und Bestand
 
-Quellen:
-https://www.symcon.de/de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/module/setvisualizationtype/
-https://www.symcon.de/de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/konstanten/
-https://www.symcon.de/de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/html-sdk/openobject/
+Basis: Raumkachel 2.4.3 und Raumübersicht 1.2.3. Neue Versionen: Raumkachel **2.4.4 / Build 21**, Raumübersicht **1.2.4 / Build 11**. Modulkennungen, Autor, bestehende Eigenschaften und Zuordnungen sind erhalten. Lediglich vier zusätzliche Bereichseigenschaften und die für sie benötigte Formular-/Darstellungslogik wurden ergänzt. Befehlsverarbeitung, Wertebereiche, Temperaturbedienung, Navigationslogik und Symcon-Registrierung sind unverändert. Die separate Wohnbereich-Bibliothek wird nicht verändert.
+
+## Prüfung
+
+- 500 lokale PHP-/Konfigurationsprüfungen bestanden (439 Raumkachel, 61 Raumübersicht).
+- 107 Browser-/Grafikprüfungen bestanden: beide realen PHP-HTML-Ausgaben laden das JPEG; sieben Leuchtenarten in beiden Bereichen liegen innerhalb des Bildes und auf der richtigen Seite; Schalten/Dimmen und Aktivierung sind getrennt; gleiche Leuchtenarten im anderen Bereich verschieben die Grafik nicht.
+- Alle 16 bisherigen Raummotive einschließlich Neutral gerendert: die resultierenden SVG-Grafiken sind exakt gleich zur Vorversion.
+- Acht End-to-End-Prüfungen der interaktiven Vorschau bestanden.
+- Neue Grafik mit Tor- und Küchenbeleuchtung in Hauptkachel und Übersicht gerendert betrachtet. Alle alten Grafikdateien sowie CSS und Klima-/Übersichtsskripte sind bytegleich zur Vorversion.
+- ZIP-Integrität und Dateivollständigkeit geprüft. HTML-Ausgaben bleiben deutlich unter 1 MB.
+
+Die Prüfungen laufen mit einer simulierten Symcon-API und Chromium. Kein Test auf der tatsächlichen SymBox oder KNX-Anlage. Lichtkegel sind eine illustrative Darstellung, keine physikalische Lichtsimulation.
+
+## Bild
+
+Mit der integrierten Bildgenerierung erstellt; Stilreferenz war das bisherige Küchenmotiv. Vorgabe: dunkle professionelle Architektur-CGI einer Garage mit geschlossenem Sektionaltor links, kompakter Küchenzeile mit Spüle und Kühlschrank rechts und freiem Boden; keine eingebrannten Leuchten, Steckdosen, Zusatzfenster, Personen oder Schrift. Für die Auslieferung als JPEG mit 1200 Pixeln Breite komprimiert. Die tatsächlichen Leuchten, Fenster/Jalousien und Statussymbole werden weiterhin dynamisch ergänzt.
+
+Neue Formularfunktionen verwenden die dokumentierten GetConfigurationForm-, Select-onChange- und UpdateFormField-Schnittstellen ab Symcon 4.1/5.2; keine 9.1-Options-Unterelemente.
