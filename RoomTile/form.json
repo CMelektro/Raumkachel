@@ -2,7 +2,7 @@
   "elements": [
     {
       "type": "Label",
-      "caption": "Raumkachel 2.4.3 · Raum auswählen und gewünschte Geräte aktivieren."
+      "caption": "Raumkachel 2.4.4 · Raum auswählen und gewünschte Geräte aktivieren."
     },
     {
       "type": "ExpansionPanel",
@@ -93,10 +93,15 @@
               "value": "storage"
             },
             {
+              "caption": "Garage mit Küchenzeile",
+              "value": "garage_kitchen"
+            },
+            {
               "caption": "Neutral (zusätzlich)",
               "value": "neutral"
             }
-          ]
+          ],
+          "onChange": "TVK_SetGarageFormVisibility($id, $RoomStyle);"
         },
         {
           "type": "SelectColor",
@@ -125,6 +130,22 @@
           "type": "ValidationTextBox",
           "name": "PendantName",
           "caption": "Bezeichnung"
+        },
+        {
+          "type": "Select",
+          "name": "PendantGarageZone",
+          "caption": "Beleuchtungsbereich in der Garage",
+          "visible": false,
+          "options": [
+            {
+              "caption": "Torbereich",
+              "value": "gate"
+            },
+            {
+              "caption": "Küchenzeile",
+              "value": "kitchen"
+            }
+          ]
         },
         {
           "type": "Select",
@@ -272,6 +293,22 @@
         },
         {
           "type": "Select",
+          "name": "SpotGarageZone",
+          "caption": "Beleuchtungsbereich in der Garage",
+          "visible": false,
+          "options": [
+            {
+              "caption": "Torbereich",
+              "value": "gate"
+            },
+            {
+              "caption": "Küchenzeile",
+              "value": "kitchen"
+            }
+          ]
+        },
+        {
+          "type": "Select",
           "name": "SpotType",
           "caption": "Leuchtenart",
           "options": [
@@ -416,6 +453,22 @@
         },
         {
           "type": "Select",
+          "name": "LedGarageZone",
+          "caption": "Beleuchtungsbereich in der Garage",
+          "visible": false,
+          "options": [
+            {
+              "caption": "Torbereich",
+              "value": "gate"
+            },
+            {
+              "caption": "Küchenzeile",
+              "value": "kitchen"
+            }
+          ]
+        },
+        {
+          "type": "Select",
           "name": "LedType",
           "caption": "Leuchtenart",
           "options": [
@@ -557,6 +610,22 @@
           "type": "ValidationTextBox",
           "name": "Light4Name",
           "caption": "Bezeichnung"
+        },
+        {
+          "type": "Select",
+          "name": "Light4GarageZone",
+          "caption": "Beleuchtungsbereich in der Garage",
+          "visible": false,
+          "options": [
+            {
+              "caption": "Torbereich",
+              "value": "gate"
+            },
+            {
+              "caption": "Küchenzeile",
+              "value": "kitchen"
+            }
+          ]
         },
         {
           "type": "Select",

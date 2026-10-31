@@ -116,8 +116,33 @@ class Raumkachel extends IPSModule
         $this->RegisterPropertyInteger('Blind2Feedback', 0);
         // Symcon 9.0 supports the HTML-SDK with visualization type 1.
         // Type 2 is available only from Symcon 9.1 onward.
+        $this->RegisterPropertyString('PendantGarageZone', 'gate');
+        $this->RegisterPropertyString('SpotGarageZone', 'kitchen');
+        $this->RegisterPropertyString('LedGarageZone', 'kitchen');
+        $this->RegisterPropertyString('Light4GarageZone', 'gate');
         $this->SetVisualizationType(defined('INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN')
             ? constant('INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN') : 1);
+    }
+
+    public function GetConfigurationForm()
+    {
+        $form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
+        $fields = ['PendantGarageZone', 'SpotGarageZone', 'LedGarageZone', 'Light4GarageZone'];
+        $visible = $this->ReadPropertyString('RoomStyle') === 'garage_kitchen';
+        $walk = function (&$items) use (&$walk, $fields, $visible) {
+            foreach ($items as &$item) {
+                if (isset($item['name']) && in_array($item['name'], $fields, true)) $item['visible'] = $visible;
+                if (isset($item['items'])) $walk($item['items']);
+            }
+            unset($item);
+        };
+        $walk($form['elements']);
+        return json_encode($form, JSON_INVALID_UTF8_SUBSTITUTE);
+    }
+
+    public function SetGarageFormVisibility(string $RoomStyle): void
+    {
+        foreach (['PendantGarageZone', 'SpotGarageZone', 'LedGarageZone', 'Light4GarageZone'] as $field) $this->UpdateFormField($field, 'visible', $RoomStyle === 'garage_kitchen');
     }
 
     public function ApplyChanges()
@@ -214,7 +239,7 @@ class Raumkachel extends IPSModule
     private function SceneImage()
     {
         $room = $this->ReadPropertyString('RoomStyle');
-        $allowed = ['kitchen','hall','corridor','living','dining','guest_wc','bathroom','children','bedroom','guestroom','staircase','office','utility','technical','storage','neutral'];
+        $allowed = ['kitchen','hall','corridor','living','dining','guest_wc','bathroom','children','bedroom','guestroom','staircase','office','utility','technical','storage','garage_kitchen','neutral'];
         if (!in_array($room, $allowed, true)) $room = 'neutral';
         if ($room === 'neutral') $room = 'office';
         $path = __DIR__ . '/assets/rooms/' . $room . '.jpg';
@@ -261,6 +286,9 @@ class Raumkachel extends IPSModule
                 'scale' => $this->ReadPropertyInteger($p . 'Scale'),
                 'autoPosition' => $this->ReadPropertyBoolean($p . 'AutoPosition')
             ];
+        }
+        if ($result['room'] === 'garage_kitchen') {
+            foreach (self::LIGHTS as $i => $light) $result['lights'][$i]['garageZone'] = $this->ReadPropertyString($light[0] . 'GarageZone');
         }
         foreach (['Socket', 'Socket2'] as $i => $p) {
             $result['sockets'][] = [

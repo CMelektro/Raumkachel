@@ -65,11 +65,18 @@ ROOM_PRESETS.kitchen.lights.wall=[445,260,65];ROOM_PRESETS.technical.lights.wall
 // Additional room motifs; existing presets remain unchanged.
 ROOM_PRESETS.guestroom={name:'Gästezimmer',windows:[[55,110,.65],[675,110,.65]],socket:[765,465],lights:{pendant:[505,85,80],spots:[500,65,110],led:[500,277,70],panel:[505,65,85],wall:[735,260,60],floor:[185,320,75],path:[125,430,60]}};
 ROOM_PRESETS.bathroom={name:'Hauptbadezimmer',windows:[[665,85,.55],[815,85,.55]],socket:[670,342],lights:{pendant:[765,45,65],spots:[500,45,110],led:[452,139,97],panel:[470,50,90],wall:[660,230,55],floor:[675,315,65],path:[665,425,50]}};
+ROOM_PRESETS.garage_kitchen={name:'Garage mit Küchenzeile',windows:[[565,95,.6],[850,95,.6]],socket:[650,283],lights:{pendant:[755,92,60],spots:[755,65,95],led:[760,307,135],panel:[755,65,100],wall:[725,230,65],floor:[570,270,80],path:[985,385,48]}};
+const GARAGE_LIGHT_PRESETS={
+ gate:{pendant:[290,150,100],spots:[290,55,105],led:[292,94,138],panel:[300,50,110],wall:[38,255,60],floor:[60,285,80],path:[37,380,65]},
+ kitchen:ROOM_PRESETS.garage_kitchen.lights
+};
+function garageZone(d){return d.garageZone==='gate'?'gate':'kitchen'}
 function roomPreset(){return ROOM_PRESETS[state.room]||ROOM_PRESETS.office}
 function lightPose(d){
  if(d.autoPosition===false)return [bound(d.x,0,1000),bound(d.y,0,650),bound(d.scale,30,180)];
- const p=[...(roomPreset().lights[d.type]||roomPreset().lights.floor)];
- const peers=state.lights.filter(x=>x.enabled&&x.type===d.type&&x.autoPosition!==false);
+ const lighting=state.room==='garage_kitchen'?GARAGE_LIGHT_PRESETS[garageZone(d)]:roomPreset().lights;
+ const p=[...(lighting[d.type]||lighting.floor)];
+ const peers=state.lights.filter(x=>x.enabled&&x.type===d.type&&x.autoPosition!==false&&(state.room!=='garage_kitchen'||garageZone(x)===garageZone(d)));
  if(peers.length>1){
   const rank=peers.findIndex(x=>x.id===d.id);
   if(state.room==='staircase'&&d.type==='led')return [300+480*rank/peers.length,480-280*rank/peers.length-270/peers.length,100/peers.length];
@@ -77,6 +84,10 @@ function lightPose(d){
    if(state.room==='corridor')return p;
    const scale=p[2]/100;
    return [p[0]-160*scale+(rank+.5)*320*scale/peers.length,p[1],p[2]/peers.length];
+  }
+  if(state.room==='garage_kitchen'){
+   const lo=garageZone(d)==='gate'?150:620,hi=garageZone(d)==='gate'?440:930;
+   p[0]=lo+(hi-lo)*rank/(peers.length-1);p[2]=Math.min(p[2]*.65,d.type==='spots'?40:50);return p;
   }
   const gap=190,span=(peers.length-1)*gap,start=bound(p[0]-span/2,135,865-span);
   p[0]=start+rank*gap;p[2]=Math.min(p[2]*.78,d.type==='led'?52:d.type==='spots'?60:95);
@@ -154,7 +165,7 @@ function rebuild(){
  for(const id of ['roomLayer','blindLayer','lightLayer','socketLayer'])$(id).setAttribute('transform',sceneTransform);
  const devices=active();$('controls').replaceChildren();$('lightLayer').replaceChildren();$('blindLayer').replaceChildren();$('socketLayer').replaceChildren();furniture(state.room);state.blinds.forEach((d,i)=>{if(d.enabled)makeBlind(d,i)});for(const d of state.lights)if(d.enabled){if(d.useSwitch||d.useDim)buildCard(d,'light');makeLight(d)}state.sockets.forEach((d,i)=>{if(d.enabled){buildCard(d,'socket');makeSocket(d,i)}});for(const d of state.blinds)if(d.enabled&&(d.useMove||d.useStop||d.usePosition))buildCard(d,'blind');$('tile').classList.toggle('many',$('controls').children.length>4);if(!devices.length)el('div',{class:'empty',text:'Keine Kreise aktiviert'},$('controls'))}
 function paint(){const title=typeof state.title==='string'?state.title:'';const showTitle=state.showTitle!==false&&title.trim()!=='';const showSummary=state.showSummary!==false;$('title').textContent=title;$('title').hidden=!showTitle;$('summary').hidden=!showSummary;$('header').hidden=!showTitle&&!showSummary;$('tile').classList.toggle('no-header',!showTitle&&!showSummary);document.documentElement.style.setProperty('--bg',/^#[\da-f]{6}$/i.test(state.backgroundColor)?state.backgroundColor:'#202124');document.documentElement.style.setProperty('--ink',/^#[\da-f]{6}$/i.test(state.textColor)?state.textColor:'#ffffff');
-for(const d of [...state.lights,...state.sockets]){if(!d.enabled)continue;const on=d.on===true;const card=$(d.id+'Card');if(card){card.classList.toggle('on',on);$(d.id+'Name').textContent=d.name;$(d.id+'State').textContent=d.on===null?'Status unbekannt':on?'Ein':'Aus'}const b=$(d.id+'Switch');if(b){b.setAttribute('aria-checked',String(on));b.disabled=!d.canSwitch}if($(d.id+'Range')){if(drag!==d.id)setRange(d.id,d.level);$(d.id+'Range').disabled=!d.canDim}const glow=$(d.id+'Glow');if(glow){const value=on?(d.useDim?(d.level===null?.45:bound(d.level,0,100)/100):1):0;glow.setAttribute('opacity',String(value));$(d.id+'Source').setAttribute('fill',on?'#ffe3ae':'#a7a294');$(d.id+'Source').setAttribute('stroke',on?'#ffe3ae':'#a7a294')}if($(d.id+'Indicator')){
+for(const d of [...state.lights,...state.sockets]){if(!d.enabled)continue;const on=d.on===true;const card=$(d.id+'Card');if(card){card.classList.toggle('on',on);$(d.id+'Name').textContent=d.name;$(d.id+'State').textContent=(state.room==='garage_kitchen'&&d.id[0]==='L'?(garageZone(d)==='gate'?'Torbereich · ':'Küchenzeile · '):'')+(d.on===null?'Status unbekannt':on?'Ein':'Aus')}const b=$(d.id+'Switch');if(b){b.setAttribute('aria-checked',String(on));b.disabled=!d.canSwitch}if($(d.id+'Range')){if(drag!==d.id)setRange(d.id,d.level);$(d.id+'Range').disabled=!d.canDim}const glow=$(d.id+'Glow');if(glow){const value=on?(d.useDim?(d.level===null?.45:bound(d.level,0,100)/100):1):0;glow.setAttribute('opacity',String(value));$(d.id+'Source').setAttribute('fill',on?'#ffe3ae':'#a7a294');$(d.id+'Source').setAttribute('stroke',on?'#ffe3ae':'#a7a294')}if($(d.id+'Indicator')){
  $(d.id+'Indicator').setAttribute('fill',on?'#ffe5af':'#777');
  $(d.id+'SocketGlow').setAttribute('opacity',on?'.5':'0');
  $(d.id+'SocketFill').setAttribute('opacity',on?'.18':'0');
@@ -164,7 +175,7 @@ for(const d of [...state.lights,...state.sockets]){if(!d.enabled)continue;const 
 }}
 for(const d of state.blinds){if(!d.enabled)continue;const known=d.position!==null&&Number.isFinite(Number(d.position));const p=known?bound(d.position,0,100):0;const text=known?Math.round(p)+' % geschlossen':'Position unbekannt';if($(d.id+'Card')){$(d.id+'Name').textContent=d.name;$(d.id+'State').textContent=text;$(d.id+'Card').classList.toggle('on',known&&p>0)}for(const a of ['Up','Down','Stop'])if($(d.id+a))$(d.id+a).disabled=!(a==='Stop'?d.canStop:d.canMove);if($(d.id+'Range')){if(drag!==d.id)setRange(d.id,known?p:null);$(d.id+'Range').disabled=!d.canPosition}$(d.id+'Slats').setAttribute('height',String(known?228*p/100:228));$(d.id+'Slats').setAttribute('opacity',known?'1':'.12');$(d.id+'Bottom').setAttribute('d',`M0 ${228*p/100}H166`);$(d.id+'Bottom').setAttribute('opacity',known?'1':'0');$(d.id+'GraphicLabel').textContent=d.name+' · '+(known?Math.round(p)+' %':'—')}
 const lights=state.lights.filter(d=>d.enabled);const count=lights.filter(d=>d.on===true).length;const sockets=state.sockets.filter(d=>d.enabled&&d.on===true).length;$('summaryText').textContent=lights.length?`${count} von ${lights.length} Lichtkreisen ein`:'Keine Lichtkreise aktiviert';if(sockets)$('summaryText').textContent+=` · ${sockets} Schaltkreis${sockets>1?'e':''} ein`;$('dot').classList.toggle('on',count+sockets>0)}
-function handleMessage(data){let next;try{next=typeof data==='string'?JSON.parse(data):data}catch(e){return}if(next&&next.error){showError();return}if(!next||!Array.isArray(next.lights))return;state={...next,sockets:next.sockets||[],blinds:next.blinds||[]};const key=JSON.stringify([state.room,...active().map(d=>[d.id,d.type,d.name,d.useSwitch,d.useDim,d.useMove,d.useStop,d.usePosition,d.x,d.y,d.scale,d.autoPosition])]);if(key!==layoutKey){drag=null;layoutKey=key;rebuild()}paint()}
+function handleMessage(data){let next;try{next=typeof data==='string'?JSON.parse(data):data}catch(e){return}if(next&&next.error){showError();return}if(!next||!Array.isArray(next.lights))return;state={...next,sockets:next.sockets||[],blinds:next.blinds||[]};const key=JSON.stringify([state.room,...active().map(d=>[d.id,d.type,d.garageZone,d.name,d.useSwitch,d.useDim,d.useMove,d.useStop,d.usePosition,d.x,d.y,d.scale,d.autoPosition])]);if(key!==layoutKey){drag=null;layoutKey=key;rebuild()}paint()}
 /*CM_EXTENSIONS*/
 window.handleMessage=function(data){try{handleMessage(data);$('bootNotice').hidden=true}catch(error){console.error('CMelektro Raumansicht:',error);$('bootNotice').textContent='Die Raumansicht konnte nicht geladen werden. Bitte die Module aktualisieren und die Visu neu öffnen.';$('bootNotice').hidden=false}};
 })();
